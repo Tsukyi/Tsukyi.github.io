@@ -43,17 +43,18 @@
             min-height: 100vh;
         }
 
-        /* Sidebar Navigation */
+        /* Sidebar Navigation & Widgets */
         aside {
-            width: 220px;
+            width: 260px;
             background-color: var(--sidebar-bg);
-            padding: 2.5rem 1.25rem;
+            padding: 2rem 1.25rem;
             border-right: 1px solid var(--card-border);
             display: flex;
             flex-direction: column;
             position: fixed;
             height: 100vh;
             justify-content: space-between;
+            overflow-y: auto;
         }
 
         .profile-section {
@@ -62,11 +63,11 @@
         }
 
         .profile-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background-color: #bebbb1;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -76,18 +77,19 @@
 
         nav ul {
             list-style: none;
+            margin-bottom: 1.5rem;
         }
 
         nav li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         nav a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             display: block;
-            padding: 0.5rem 0.75rem;
+            padding: 0.4rem 0.75rem;
             border-radius: 6px;
             transition: all 0.2s;
         }
@@ -96,6 +98,72 @@
             color: var(--text-main);
             background-color: var(--card-bg);
             font-weight: 500;
+        }
+
+        /* Mini-Game Widget Styles */
+        .minigame-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.85rem;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .minigame-box h4 {
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+            color: var(--accent);
+        }
+
+        .minigame-box p {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .game-input-group {
+            display: flex;
+            gap: 0.35rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .game-input-group input {
+            width: 100%;
+            padding: 0.25rem 0.5rem;
+            background-color: var(--bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .game-input-group button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .game-input-group button:hover {
+            opacity: 0.9;
+        }
+
+        #gameMessage {
+            font-weight: 500;
+            color: var(--text-main);
+            min-height: 1.2rem;
+            font-size: 0.75rem;
+        }
+
+        .sidebar-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .theme-toggle-btn {
@@ -119,7 +187,7 @@
 
         /* Main Content */
         main {
-            margin-left: 220px;
+            margin-left: 260px;
             flex: 1;
             padding: 3rem 4rem;
             max-width: 1000px;
@@ -365,8 +433,22 @@
                     <li><a href="#coursework">Coursework</a></li>
                 </ul>
             </nav>
+
+            <!-- Mini-Game Widget -->
+            <div class="minigame-box">
+                <h4>Mini Game: Guess 1-10</h4>
+                <p>Guess my secret number!</p>
+                <div class="game-input-group">
+                    <input type="number" id="guessInput" min="1" max="10" placeholder="#">
+                    <button id="guessBtn">Guess</button>
+                </div>
+                <div id="gameMessage"></div>
+            </div>
         </div>
-        <button class="theme-toggle-btn" id="themeToggle">🌓 Toggle Theme</button>
+
+        <div class="sidebar-bottom">
+            <button class="theme-toggle-btn" id="themeToggle">🌓 Toggle Theme</button>
+        </div>
     </aside>
 
     <main>
@@ -396,7 +478,6 @@
         <section id="projects">
             <h2>Projects</h2>
             
-            <!-- Feature 2: Interactive Project Filter Bar -->
             <div class="filter-bar">
                 <button class="filter-btn active" data-filter="all">All Projects</button>
                 <button class="filter-btn" data-filter="python">Python</button>
@@ -461,7 +542,7 @@
     </main>
 
     <script>
-        // Feature 4: Dark/Light Theme Toggle with localStorage persistence
+        // Dark/Light Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         const currentTheme = localStorage.getItem('theme');
 
@@ -480,13 +561,12 @@
             }
         });
 
-        // Feature 2: Interactive Project Filter Script
+        // Interactive Project Filter Script
         const filterBtns = document.querySelectorAll('.filter-btn');
         const projectCards = document.querySelectorAll('.project-card');
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove active class from all buttons
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
@@ -501,6 +581,38 @@
                     }
                 });
             });
+        });
+
+        // Mini-Game Logic: Guess the Number
+        let secretNumber = Math.floor(Math.random() * 10) + 1;
+        const guessInput = document.getElementById('guessInput');
+        const guessBtn = document.getElementById('guessBtn');
+        const gameMessage = document.getElementById('gameMessage');
+
+        guessBtn.addEventListener('click', () => {
+            const userGuess = parseInt(guessInput.value);
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 10) {
+                gameMessage.textContent = "Enter a number 1-10!";
+                gameMessage.style.color = "var(--accent)";
+                return;
+            }
+
+            if (userGuess === secretNumber) {
+                gameMessage.textContent = "🎉 Correct! You win!";
+                gameMessage.style.color = "#10b981"; // success green
+                setTimeout(() => {
+                    secretNumber = Math.floor(Math.random() * 10) + 1;
+                    guessInput.value = "";
+                    gameMessage.textContent = "New number generated!";
+                }, 2500);
+            } else if (userGuess < secretNumber) {
+                gameMessage.textContent = "Too low! Try higher.";
+                gameMessage.style.color = "var(--text-muted)";
+            } else {
+                gameMessage.textContent = "Too high! Try lower.";
+                gameMessage.style.color = "var(--text-muted)";
+            }
         });
     </script>
 </body>
