@@ -6,11 +6,20 @@
     <title>Boon Kiat | CS Freshman Portfolio</title>
     <style>
         :root {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
+            --bg: #eceae3;
+            --sidebar-bg: #d8d5ca;
+            --card-bg: #e3e0d6;
+            --card-border: #cdc9bc;
+            --text-main: #33312e;
+            --text-muted: #6e6b63;
+            --accent: #5e6653;
+            --accent-soft: #d3d7ca;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -18,137 +27,280 @@
             background-color: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
+        /* Sidebar Navigation */
+        aside {
+            width: 220px;
+            background-color: var(--sidebar-bg);
+            padding: 2.5rem 1.25rem;
+            border-right: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .profile-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #bebbb1;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 0.75rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+            background-color: var(--card-bg);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 220px;
+            flex: 1;
+            padding: 3rem 4rem;
+            max-width: 1000px;
         }
 
         header {
             margin-bottom: 3rem;
+            position: relative;
         }
 
-        h1 {
+        header h1 {
             font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-weight: 600;
             color: var(--text-main);
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--accent);
+            margin-top: 0.25rem;
             margin-bottom: 1rem;
+            font-weight: 500;
         }
 
         .bio {
             color: var(--text-muted);
-            font-size: 1.05rem;
+            max-width: 600px;
+            font-size: 0.95rem;
         }
 
         .social-links {
             margin-top: 1.5rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .social-links a {
             color: var(--text-main);
             text-decoration: none;
             background-color: var(--card-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            border: 1px solid #334155;
-            transition: border-color 0.2s;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--card-border);
+            transition: all 0.2s;
         }
 
         .social-links a:hover {
             border-color: var(--accent);
+            background-color: var(--accent-soft);
         }
 
         section {
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
         }
 
         h2 {
-            font-size: 1.5rem;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
         }
 
+        /* Skills Grid */
         .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1rem;
         }
 
-        .skill-tag {
+        .skill-card {
             background-color: var(--card-bg);
-            color: var(--accent);
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
             font-size: 0.9rem;
-            font-family: monospace;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: transform 0.2s ease, border-color 0.2s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        /* Projects Layout */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .project-card {
             background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
             padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
         }
 
         .project-card h3 {
-            margin-top: 0;
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
         }
 
         .project-card p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
         }
 
         .project-tags {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
         }
 
         .project-tags span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            background-color: var(--accent-soft);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
             font-family: monospace;
         }
 
         .project-link {
             color: var(--accent);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .project-link:hover {
             text-decoration: underline;
         }
 
-        footer {
-            text-align: center;
+        /* Coursework Table */
+        .coursework-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .coursework-table th, .coursework-table td {
+            padding: 0.85rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .coursework-table th {
+            background-color: rgba(0,0,0,0.02);
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .coursework-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        footer {
             margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--card-border);
+                padding: 1.5rem;
+            }
+            main {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
+
+    <aside>
+        <div class="profile-img">BK</div>
+        <nav>
+            <ul>
+                <li><a href="#about" class="active">Profile</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#coursework">Coursework</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <header id="about">
             <h1>Boon Kiat</h1>
             <div class="subtitle">Computer Science Freshman @ National University of Singapore</div>
             <p class="bio">Passionate about software development, data structures, and building practical applications. Currently mastering Python and C++ while exploring web development.</p>
@@ -162,49 +314,76 @@
         <section id="skills">
             <h2>Technical Skills</h2>
             <div class="skills-grid">
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">C++</span>
-                <span class="skill-tag">HTML/CSS</span>
-                <span class="skill-tag">Git & GitHub</span>
-                <span class="skill-tag">VS Code</span>
-                <span class="skill-tag">Linux Basics</span>
+                <div class="skill-card">Python</div>
+                <div class="skill-card">C++</div>
+                <div class="skill-card">HTML/CSS</div>
+                <div class="skill-card">Git</div>
+                <div class="skill-card">VS Code</div>
+                <div class="skill-card">Linux</div>
             </div>
         </section>
 
         <section id="projects">
             <h2>Projects</h2>
-            
-            <div class="project-card">
-                <h3>Personal Finance Tracker</h3>
-                <p>A Python CLI application designed to track monthly expenses, categorize spending, and export financial summaries to CSV format.</p>
-                <div class="project-tags">
-                    <span>Python</span> • <span>File I/O</span> • <span>CLI</span>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div>
+                        <h3>Habitz</h3>
+                        <p>A Python CLI application designed to track habits and expenses, with features to generate financial summaries in CSV format.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>File I/O</span>
+                            <span>CLI</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/Tsukyi/Habitz" class="project-link" target="_blank">View Repository →</a>
                 </div>
-                <a href="https://github.com/Tsukyi/Habitz" class="project-link" target="_blank">View Code →</a>
-            </div>
 
-            <div class="project-card">
-                <h3>Portfolio Website</h3>
-                <p>A minimalist single-page portfolio built using semantic HTML and CSS to showcase coursework and personal programming projects.</p>
-                <div class="project-tags">
-                    <span>HTML5</span> • <span>CSS3</span> • <span>GitHub Pages</span>
+                <div class="project-card">
+                    <div>
+                        <h3>Portfolio Website</h3>
+                        <p>A minimalist single-page portfolio built using semantic HTML and CSS to showcase coursework and personal programming projects.</p>
+                        <div class="project-tags">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>GitHub Pages</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/Tsukyi/Tsukyi.github.io" class="project-link" target="_blank">View Repository →</a>
                 </div>
-                <a href="https://github.com/Tsukyi/Tsukyi.github.io" class="project-link" target="_blank">View Code →</a>
             </div>
         </section>
 
         <section id="coursework">
             <h2>Relevant Coursework</h2>
-            <ul>
-                <li><strong>CS 101:</strong> Introduction to Computer Science (Python)</li>
-                <li><strong>CS 102:</strong> Data Structures & Functional Programming (Ongoing)</li>
-                <li><strong>MATH 201:</strong> Discrete Mathematics</li>
-            </ul>
+            <table class="coursework-table">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CS 101</strong></td>
+                        <td>Introduction to Computer Science (Python)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CS 102</strong></td>
+                        <td>Data Structures & Functional Programming</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MATH 201</strong></td>
+                        <td>Discrete Mathematics</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <footer>
-            <p>© 2026 Boon Kiat. Hosted on GitHub Pages.</p>
+            <p>© 2026 Boon Kiat. Hosted on GitHub Pages | NUS Singapore</p>
         </footer>
-    </div>
+    </main>
+
 </body>
 </html>
